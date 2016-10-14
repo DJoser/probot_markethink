@@ -14,10 +14,12 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+//var game = new Phaser.Game(256, 224, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1280,720, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
+    game.load.bitmapFont('carrier_command', 'assets/fonts/bitmapFonts/carrier_command.png', 'assets/fonts/bitmapFonts/carrier_command.xml');
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
@@ -33,13 +35,15 @@ var stars;
 var score = 0;
 var scoreText;
 
+var bpmText;
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    //game.add.sprite(0, 0, 'sky');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -97,12 +101,19 @@ function create() {
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
-    //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
 
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
-    
+
+    // Cambiar a pantalla completa
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    game.input.onDown.add(gofull, this);
+
+    // Textos del juego
+    bmpText = game.add.bitmapText(10, 100, 'carrier_command','Level 1!',34);
+    scoreText = game.add.bitmapText(16, 16, 'carrier_command','score: 0', 10);
+
 }
 
 function update() {
@@ -147,6 +158,10 @@ function update() {
 
 }
 
+function render () {
+    //game.debug.inputInfo(32, 32);
+ }
+
 function collectStar (player, star) {
     
     // Removes the star from the screen
@@ -156,6 +171,17 @@ function collectStar (player, star) {
     score += 10;
     scoreText.text = 'Score: ' + score;
 
+}
+
+function gofull() {
+    if (game.scale.isFullScreen)
+    {
+        game.scale.stopFullScreen();
+    }
+    else
+    {
+        game.scale.startFullScreen(false);
+    }
 }
 
 </script>
