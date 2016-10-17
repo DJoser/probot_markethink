@@ -28,21 +28,8 @@
         game.state.add('Level2', BasicGame.Level2);
         game.state.add('Level3', BasicGame.Level3);
 
-        //	Now start the Boot state.
+        //	Iniciar la carga del juego
         game.state.start('Preloader');
-
-        /*// Cambiar a pantalla completa
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        game.input.onDown.add(gofull, this);
-
-        function gofull() {
-            if (game.scale.isFullScreen) {
-                game.scale.stopFullScreen();
-            }
-            else {
-                game.scale.startFullScreen(false);
-            }
-        }*/
     };
 </script>
 

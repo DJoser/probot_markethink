@@ -104,14 +104,20 @@ BasicGame.Level1.prototype = {
         {
             player.body.velocity.y = -350;
         }
-
     },
-
     render: function () {
         //this.debug.inputInfo(32, 32);
     },
     nextLevel: function (pointer) {
         // And start the actual game
         this.state.start('Level2');
+    },
+    gofull: function () {
+        if (game.scale.isFullScreen) {
+            game.scale.stopFullScreen();
+        }
+        else {
+            game.scale.startFullScreen(false);
+        }
     }
 };

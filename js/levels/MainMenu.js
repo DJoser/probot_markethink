@@ -5,6 +5,7 @@ BasicGame.MainMenu = function (game) {
     this.playButton = null;
     this.bmpText = null;
     this.dudeintro = null;
+    this.montana = null;
 };
 
 BasicGame.MainMenu.prototype = {
@@ -18,8 +19,11 @@ BasicGame.MainMenu.prototype = {
         prueba = this.add.bitmapText(100, 100, 'carrier_command', 'MarkeTHINK!', 70);
         this.add.bitmapText((this.world.width / 2) - (prueba.width / 2), this.world.height / 2, 'carrier_command', 'Press Start', 30);
 
-        this.player = this.add.sprite(this.world.width - 500, this.world.height / 2, 'dudeintro');
-        this.player.scale.setTo(10,10);
+        this.montana = this.add.sprite(0,0,'montana');
+        this.montana.scale.set(7,7);
+
+        this.player = this.add.sprite(this.world.width - 480, this.world.height  - 470, 'dudeintro');
+        this.player.scale.setTo(7,7);
         this.player.animations.add('standby', [0, 1], 10, true);
         this.player.animations.play('standby');
 
