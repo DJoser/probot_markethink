@@ -30,7 +30,7 @@ BasicGame.MainMenu.prototype = {
         this.pergaminocentro = this.add.sprite(200,2,'pergaminocentro');
         this.pergaminocentro.scale.set(26,9);
 
-        this.player = this.add.sprite(this.world.width - 465, this.world.height  - 470, 'dudeintro');
+        this.player = this.add.sprite(this.world.width - 465, this.world.height  - 485, 'dudeintro');
         this.player.scale.setTo(7,7);
         this.player.animations.add('standby', [0, 1], 10, true);
         this.player.animations.play('standby');
