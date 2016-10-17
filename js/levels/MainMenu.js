@@ -15,7 +15,8 @@ BasicGame.MainMenu.prototype = {
         this.music = this.add.audio('titleMusic');
         this.music.loopFull();
 
-        this.add.bitmapText(100, 100, 'carrier_command', 'MARKE THINK!', 70);
+        prueba = this.add.bitmapText(100, 100, 'carrier_command', 'MarkeTHINK!', 70);
+        this.add.bitmapText((this.world.width / 2) - (prueba.width / 2), this.world.height / 2, 'carrier_command', 'Press Start', 30);
 
         this.player = this.add.sprite(this.world.width - 500, this.world.height / 2, 'dudeintro');
         this.player.scale.setTo(10,10);
