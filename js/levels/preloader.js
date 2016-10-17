@@ -24,7 +24,7 @@ BasicGame.Preloader.prototype = {
 		//	Here we load the rest of the assets our game needs.
 		//	As this is just a Project Template I've not provided these assets, swap them for your own.
 		this.load.image('titlepage', 'assets/sky.png');
-		this.load.audio('titleMusic', ['assets/music/music1.wav']);
+		this.load.audio('titleMusic', ['assets/music/The Hero.ogg']);
 
         this.load.bitmapFont('carrier_command',
             'assets/fonts/bitmapFonts/carrier_command.png',
@@ -33,7 +33,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star.png');
         this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
+        this.load.spritesheet('dudeintro','assets/sprites/dudeintro.png',32,32);
 	},
 
 	create: function () {

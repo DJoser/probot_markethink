@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
     window.onload = function() {
-        var game = new Phaser.Game(1280,720, Phaser.AUTO, '');
+        var game = new Phaser.Game(1280,720, Phaser.AUTO, '',null,false,false);
 
         game.state.add('MainMenu', BasicGame.MainMenu);
         game.state.add('Preloader', BasicGame.Preloader);
