@@ -32,7 +32,10 @@ BasicGame.Preloader.prototype = {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star.png');
-        this.load.image('montana', 'assets/sprites/montanas.png')
+        this.load.image('montana', 'assets/sprites/montanas.png');
+        this.load.image('pergaminoizquierda', 'assets/sprites/pergaminoizquierda.png');
+        this.load.image('pergaminoderecha', 'assets/sprites/pergaminoderecha.png');
+        this.load.image('pergaminocentro', 'assets/sprites/pergaminocentro.png');
         this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         this.load.spritesheet('dudeintro','assets/sprites/dudeintro.png',32,32);
 	},
