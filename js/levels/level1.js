@@ -66,6 +66,10 @@ BasicGame.Level1.prototype = {
 
     update: function () {
 
+        if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+            this.nextLevel();
+        }
+
         //  Collide the player and the stars with the platforms
         this.physics.arcade.collide(player, platforms);
         this.physics.arcade.collide(stars, platforms);
@@ -105,6 +109,9 @@ BasicGame.Level1.prototype = {
 
     render: function () {
         //this.debug.inputInfo(32, 32);
+    },
+    nextLevel: function (pointer) {
+        // And start the actual game
+        this.state.start('Level2');
     }
-}
-;
+};

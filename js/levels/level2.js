@@ -1,61 +1,118 @@
-
 BasicGame.Level2 = function (game) {
+    this.player;
+    this.platforms;
+    this.cursors;
 
-    this.background = null;
-    this.preloadBar = null;
+    this.stars;
+    this.score = 0;
+    this.scoreText;
 
-    this.ready = false;
+    this.bpmText;
 
+    this.collectStar = function (player, star) {
+
+        // Removes the star from the screen
+        star.kill();
+
+        //  Add and update the score
+        score += 10;
+        scoreText.text = 'Score: ' + score;
+    }
 };
 
 BasicGame.Level2.prototype = {
-
-    preload: function () {
-
-        //	These are the assets we loaded in Boot.js
-        //	A nice sparkly background and a loading progress bar
-        this.background = this.add.sprite(0, 0, 'preloaderBackground');
-        this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
-
-        //	This sets the preloadBar sprite as a loader sprite.
-        //	What that does is automatically crop the sprite from 0 to full-width
-        //	as the files below are loaded in.
-        this.load.setPreloadSprite(this.preloadBar);
-
-        //	Here we load the rest of the assets our game needs.
-        //	As this is just a Project Template I've not provided these assets, swap them for your own.
-        this.load.image('titlepage', 'images/title.jpg');
-        this.load.atlas('playButton', 'images/play_button.png', 'images/play_button.json');
-        this.load.audio('titleMusic', ['audio/main_menu.mp3']);
-        this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
-        //	+ lots of other required assets here
-
-    },
-
     create: function () {
+        // Configurar Juego
+        this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-        this.preloadBar.cropEnabled = false;
+        // Plataformas
+        platforms = this.add.group();
+        platforms.enableBody = true;
+        var ground = platforms.create(0, this.world.height - 64, 'ground');
+        ground.scale.setTo(2, 2);
+        ground.body.immovable = true;
+        var ledge = platforms.create(400, 400, 'ground');
+        ledge.body.immovable = true;
+        ledge = platforms.create(-150, 250, 'ground');
+        ledge.body.immovable = true;
+
+        // Jugador
+        player = this.add.sprite(32, this.world.height - 150, 'dude');
+        this.physics.arcade.enable(player);
+        this.camera.follow(player);
+        player.body.bounce.y = 0.2;
+        player.body.gravity.y = 300;
+        player.body.collideWorldBounds = true;
+        player.animations.add('left', [0, 1, 2, 3], 10, true);
+        player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+        // Estrellas
+        stars = this.add.group();
+        stars.enableBody = true;
+        for (var i = 0; i < 12; i++) {
+            var star = stars.create(i * 70, 0, 'star');
+            star.body.gravity.y = 300;
+            star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        }
+
+        // Controles
+        cursors = this.input.keyboard.createCursorKeys();
+
+        // Textos del juego
+        bmpText = this.add.bitmapText(10, 100, 'carrier_command', 'Level 2!', 34);
+        scoreText = this.add.bitmapText(16, 16, 'carrier_command', 'score: 0', 10);
 
     },
 
     update: function () {
 
-        //	You don't actually need to do this, but I find it gives a much smoother game experience.
-        //	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
-        //	You can jump right into the menu if you want and still play the music, but you'll have a few
-        //	seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
-        //	it's best to wait for it to decode here first, then carry on.
-
-        //	If you don't have any music in your game then put the game.state.start line into the create function and delete
-        //	the update function completely.
-
-        if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
-        {
-            this.ready = true;
-            this.state.start('MainMenu');
+        if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+            this.nextLevel();
         }
 
-    }
+        //  Collide the player and the stars with the platforms
+        this.physics.arcade.collide(player, platforms);
+        this.physics.arcade.collide(stars, platforms);
 
-};
+        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+        //this.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+        //  Reset the players velocity (movement)
+        player.body.velocity.x = 0;
+
+        if (cursors.left.isDown) {
+            //  Move to the left
+            player.body.velocity.x = -150;
+
+            player.animations.play('left');
+        }
+        else if (cursors.right.isDown) {
+            //  Move to the right
+            player.body.velocity.x = 150;
+
+            player.animations.play('right');
+        }
+        else {
+            //  Stand still
+            player.animations.stop();
+
+            player.frame = 4;
+        }
+
+        //  Allow the player to jump if they are touching the ground.
+        if (cursors.up.isDown)// && player.body.touching.down)
+        {
+            player.body.velocity.y = -350;
+        }
+
+    },
+
+    render: function () {
+        //this.debug.inputInfo(32, 32);
+    },
+    nextLevel: function (pointer) {
+        // And start the actual game
+        this.state.start('Level3');
+    }
+}
+;
