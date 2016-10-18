@@ -28,21 +28,34 @@ BasicGame.Preloader.prototype = {
 		this.load.audio('level1Music', ['assets/music/Eurythmics - Sweet Dreams (8-Bit).mp3']);
 
 
+		// Intro
         this.load.bitmapFont('carrier_command',
             'assets/fonts/bitmapFonts/carrier_command.png',
             'assets/fonts/bitmapFonts/carrier_command.xml');
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
         this.load.image('montana', 'assets/sprites/montanas.png');
         this.load.image('pergaminoizquierda', 'assets/sprites/pergaminoizquierda.png');
         this.load.image('pergaminoderecha', 'assets/sprites/pergaminoderecha.png');
         this.load.image('pergaminocentro', 'assets/sprites/pergaminocentro.png');
-        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         this.load.spritesheet('dudeintro','assets/sprites/dudeintro.png',32,32);
 
+		// Nivel 1
 		this.load.image('hero', 'assets/sprites/dude.png');
 		this.load.image('pixel', 'assets/sprites/pixel_1.png');
+
+		// Nivel 2
+		this.load.image('bullet', 'assets/sprites/level3/bullet.png');
+		this.load.image('enemyBullet', 'assets/sprites/level3/enemy-bullet.png');
+		this.load.spritesheet('invader', 'assets/sprites/level3/invader32x32x4.png', 32, 32);
+		this.load.image('ship', 'assets/sprites/level3/player.png');
+		this.load.spritesheet('kaboom', 'assets/sprites/level3/explode.png', 128, 128);
+		this.load.image('starfield', 'assets/sprites/level3/starfield.png');
+		this.load.image('background', 'assets/sprites/level3/background2.png');
+
+		// Nivel 3
+		this.load.image('sky', 'assets/sky.png');
+		this.load.image('ground', 'assets/platform.png');
+		this.load.image('star', 'assets/star.png');
+		this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 	},
 
 	create: function () {
@@ -64,7 +77,5 @@ BasicGame.Preloader.prototype = {
 			this.ready = true;
 			this.state.start('MainMenu');
 		}
-
 	}
-
 };

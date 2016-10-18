@@ -151,7 +151,7 @@ BasicGame.Level1.prototype = {
     },
     nextLevel: function (pointer) {
         // And start the actual game
-        this.state.start('Level3');
+        this.state.start('Level2');
         this.music.stop();
     }
 };
