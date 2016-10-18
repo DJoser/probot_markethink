@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
     <title>MarkeThink</title>
 	<script type="text/javascript" src="js/phaser.js"></script>
+
     <script type="text/javascript" src="js/Game.js"></script>
     <script type="text/javascript" src="js/levels/preloader.js"></script>
     <script type="text/javascript" src="js/levels/MainMenu.js"></script>
@@ -21,7 +22,6 @@
 <script type="text/javascript">
     window.onload = function() {
         var game = new Phaser.Game(1280,720, Phaser.AUTO, '',null,false,false);
-
         game.state.add('MainMenu', BasicGame.MainMenu);
         game.state.add('Preloader', BasicGame.Preloader);
         game.state.add('Level1', BasicGame.Level1);

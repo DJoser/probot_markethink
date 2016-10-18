@@ -38,6 +38,9 @@ BasicGame.Preloader.prototype = {
         this.load.image('pergaminocentro', 'assets/sprites/pergaminocentro.png');
         this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         this.load.spritesheet('dudeintro','assets/sprites/dudeintro.png',32,32);
+
+		this.load.image('hero', 'assets/sprites/dude.png');
+		this.load.image('pixel', 'assets/sprites/pixel_1.png');
 	},
 
 	create: function () {
