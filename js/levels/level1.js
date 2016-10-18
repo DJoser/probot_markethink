@@ -2,8 +2,7 @@ BasicGame.Level1 = function () {
 };
 BasicGame.Level1.prototype = {
     create: function () {
-        // background color
-        //this.stage.backgroundColor = '#6bf';
+        this.PLATFORM_SIZE = 500;
 
         // physics
         this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -49,7 +48,10 @@ BasicGame.Level1.prototype = {
             this.platformYMin = Math.min(this.platformYMin, elem.y);
             if (elem.y > this.camera.y + this.game.height) {
                 elem.kill();
-                this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.platformYMin - 100, 100);
+                this.platformsCreateOne(
+                    this.rnd.integerInRange(0, this.world.width - 50),
+                    this.platformYMin - 100,
+                    this.PLATFORM_SIZE);
             }
         }, this);
 
@@ -76,9 +78,13 @@ BasicGame.Level1.prototype = {
 
         // create the base platform, with buffer on either side so that the hero doesn't fall through
         this.platformsCreateOne(-16, this.world.height - 16, this.world.width + 100);
+
         // create a batch of platforms that start to move up the level
         for (var i = 0; i < 9; i++) {
-            this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.world.height - 100 - 100 * i, 100);
+            this.platformsCreateOne(
+                this.rnd.integerInRange(0, this.world.width - 50),
+                this.world.height - 100 - 100 * i,
+                this.PLATFORM_SIZE);
         }
     },
 
@@ -130,7 +136,6 @@ BasicGame.Level1.prototype = {
         if(this.hero.body.touching.down) {
             this.hero.body.velocity.y = -350;
         }
-        //}
 
         // wrap world coordinated so that you can warp from left to right and right to left
         this.world.wrap(this.hero, this.hero.width / 2, false);
