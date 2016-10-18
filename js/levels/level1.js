@@ -3,7 +3,7 @@ BasicGame.Level1 = function () {
 BasicGame.Level1.prototype = {
     create: function () {
         // background color
-        this.stage.backgroundColor = '#6bf';
+        //this.stage.backgroundColor = '#6bf';
 
         // physics
         this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -23,7 +23,8 @@ BasicGame.Level1.prototype = {
 
         // Music
         this.music = this.add.audio('level1Music');
-        this.music.loopFull();
+        if(!this.music.isPlaying)
+            this.music.loopFull();
     },
 
     update: function () {
@@ -48,7 +49,7 @@ BasicGame.Level1.prototype = {
             this.platformYMin = Math.min(this.platformYMin, elem.y);
             if (elem.y > this.camera.y + this.game.height) {
                 elem.kill();
-                this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.platformYMin - 100, 50);
+                this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.platformYMin - 100, 100);
             }
         }, this);
 
@@ -74,10 +75,10 @@ BasicGame.Level1.prototype = {
         this.platforms.createMultiple(10, 'pixel');
 
         // create the base platform, with buffer on either side so that the hero doesn't fall through
-        this.platformsCreateOne(-16, this.world.height - 16, this.world.width + 16);
+        this.platformsCreateOne(-16, this.world.height - 16, this.world.width + 100);
         // create a batch of platforms that start to move up the level
         for (var i = 0; i < 9; i++) {
-            this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.world.height - 100 - 100 * i, 50);
+            this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.world.height - 100 - 100 * i, 100);
         }
     },
 
@@ -107,6 +108,8 @@ BasicGame.Level1.prototype = {
         this.hero.body.checkCollision.up = false;
         this.hero.body.checkCollision.left = false;
         this.hero.body.checkCollision.right = false;
+
+        // Add animations
         this.hero.animations.add('walk', [0, 1], 10, true);
         this.hero.animations.add('jump', [2, 3], 10, true);
         this.hero.animations.add('cry', [2, 3], 10, true);
@@ -123,9 +126,11 @@ BasicGame.Level1.prototype = {
         }
 
         // handle hero jumping
-        if (this.cursor.up.isDown && this.hero.body.touching.down) {
+        //if (this.cursor.up.isDown && this.hero.body.touching.down) {
+        if(this.hero.body.touching.down) {
             this.hero.body.velocity.y = -350;
         }
+        //}
 
         // wrap world coordinated so that you can warp from left to right and right to left
         this.world.wrap(this.hero, this.hero.width / 2, false);
@@ -135,7 +140,8 @@ BasicGame.Level1.prototype = {
 
         // if the hero falls below the camera view, gameover
         if (this.hero.y > this.cameraYMin + this.game.height && this.hero.alive) {
-            this.state.start('Play');
+            this.music.stop();
+            this.state.start('Level1');
         }
     },
     nextLevel: function (pointer) {
