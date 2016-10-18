@@ -52,7 +52,7 @@ BasicGame.Level1.prototype = {
             }
         }, this);
 
-        if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+        if (this.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
             this.nextLevel();
         }
     },

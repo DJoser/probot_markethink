@@ -24,7 +24,9 @@ BasicGame.Preloader.prototype = {
 		//	Here we load the rest of the assets our game needs.
 		//	As this is just a Project Template I've not provided these assets, swap them for your own.
 		this.load.image('titlepage', 'assets/sky.png');
-		this.load.audio('titleMusic', ['assets/music/The Hero.ogg']);
+		this.load.audio('titleMusic', ['assets/music/Red Hot Chili Peppers - Californication.mp3']);
+		this.load.audio('level1Music', ['assets/music/Eurythmics - Sweet Dreams (8-Bit).mp3']);
+
 
         this.load.bitmapFont('carrier_command',
             'assets/fonts/bitmapFonts/carrier_command.png',
