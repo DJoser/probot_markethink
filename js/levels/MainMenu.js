@@ -37,6 +37,9 @@ BasicGame.MainMenu.prototype = {
 
         prueba = this.add.bitmapText(150, 90, 'carrier_command', 'MarkeTHINK!', 70);
         this.add.bitmapText((this.world.width / 2) - (prueba.width / 2), (this.world.height / 2) - 50, 'carrier_command', 'Press Start', 30);
+
+        this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.input.onDown.add(this.gofull, this);
     },
     update: function () {
         if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
@@ -49,5 +52,15 @@ BasicGame.MainMenu.prototype = {
 
         // And start the actual game
         this.state.start('Level1');
+    },
+    gofull: function () {
+
+        if (this.scale.isFullScreen) {
+            this.scale.stopFullScreen();
+        }
+        else {
+            this.scale.startFullScreen(false);
+        }
+
     }
 };
