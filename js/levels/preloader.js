@@ -53,19 +53,13 @@ BasicGame.Preloader.prototype = {
 		this.load.image('background', 'assets/sprites/level2/background2.png');
 
 		// Nivel 3
-		this.load.audio('drivin-home', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/drivin-home-low.mp3');
+		this.load.audio('drivin-home', 'assets/music/Centuries - Fall Out Boy [8-bit].mp3');
 		this.load.audio('ho-ho-ho', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/ho-ho-ho.mp3');
 		this.load.audio('hop', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/74196/jump-sound.mp3');
 		this.load.image('platform', 'assets/sprites/level3/ground.png');
-		this.load.spritesheet('santa-running', 'assets/sprites/level3/santa-running.png', 37, 52);
+		this.load.spritesheet('santa-running', 'assets/sprites/level3/SMS.png', 18, 25);
 		this.load.image('snow-bg', 'assets/sprites/level3/snow-bg.png');
 		this.load.image('snowflake', 'assets/sprites/level3/snowflake.png');
-		this.load.image("logo", "assets/sprites/level3/game-logo.png");
-		this.load.image("instructions", "assets/sprites/level3/instructions.png");
-		this.load.image("game-over", "assets/sprites/level3/game-over.png");
-		this.load.image("startbtn", "assets/sprites/level3/start-btn.png");
-		this.load.image("playbtn", "assets/sprites/level3/play-btn.png");
-		this.load.image("restartBtn", "assets/sprites/level3/restart-btn.png");
 
 		// Nivel 4
 		this.load.image('sky', 'assets/sprites/level4/sky.png');

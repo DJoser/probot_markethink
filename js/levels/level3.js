@@ -8,6 +8,8 @@ BasicGame.Level3 = function (game) {
 BasicGame.Level3.prototype = {
 
     create: function(){
+        this.stage.backgroundColor = "#DDDDDD";
+
         this.highScore = this.gameScore > this.highScore ? Math.floor(this.gameScore) : this.highScore;
         this.gameScore = 0;
         this.currentFrame = 0;
@@ -47,8 +49,9 @@ BasicGame.Level3.prototype = {
         this.lastPlatform = plat;
 
         this.santa = this.game.add.sprite(100, this.game.world.height - 200, 'santa-running');
-        this.santa.animations.add("run");
-        this.santa.animations.play('run', 20, true);
+        this.santa.scale.set(2.5,2.5);
+        this.santa.animations.add("run",[0,1],10,true);
+        this.santa.animations.play('run');
 
         this.game.physics.arcade.enable(this.santa);
 
@@ -56,8 +59,8 @@ BasicGame.Level3.prototype = {
         this.santa.body.collideWorldBounds = true;
 
         this.emitter.makeParticles('snowflake');
-        this.emitter.maxParticleScale = .02;
-        this.emitter.minParticleScale = .001;
+        this.emitter.maxParticleScale = 4;
+        this.emitter.minParticleScale = 2;
         this.emitter.setYSpeed(100, 200);
         this.emitter.gravity = 0;
         this.emitter.width = this.game.world.width * 1.5;
@@ -67,7 +70,7 @@ BasicGame.Level3.prototype = {
         this.game.camera.follow(this.santa);
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
-        this.spacebar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.spacebar = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.emitter.start(false, 0, 0);
         this.score = this.game.add.text(20, 20, '', { font: "24px Arial", fill: "white", fontWeight: "bold" });
 
@@ -94,7 +97,10 @@ BasicGame.Level3.prototype = {
 
             }
 
-            if(this.cursors.up.isDown && this.santa.body.touching.down || this.spacebar.isDown && this.santa.body.touching.down || this.game.input.mousePointer.isDown && this.santa.body.touching.down || this.game.input.pointer1.isDown && this.santa.body.touching.down){
+            if(this.cursors.up.isDown && this.santa.body.touching.down ||
+                this.spacebar.isDown && this.santa.body.touching.down ||
+                this.game.input.mousePointer.isDown && this.santa.body.touching.down ||
+                this.game.input.pointer1.isDown && this.santa.body.touching.down){
                 this.jumpSound = this.game.add.audio("hop");
                 this.jumpSound.play();
                 this.santa.body.velocity.y = -500;
@@ -126,6 +132,6 @@ BasicGame.Level3.prototype = {
     nextLevel: function (pointer) {
         // And start the actual game
         this.state.start('MainMenu');
-        //this.music.stop();
+        this.music.stop();
     }
 };

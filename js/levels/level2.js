@@ -280,7 +280,7 @@ BasicGame.Level2.prototype = {
     },
     nextLevel: function (pointer) {
         // And start the actual game
-        this.state.start('MainMenu');
+        this.state.start('Level3');
         //this.music.stop();
     }
 };
