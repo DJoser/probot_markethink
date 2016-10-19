@@ -102,7 +102,7 @@ BasicGame.Level2.prototype = {
         this.aliens.y = 50;
 
         //  All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
-        var tween = this.add.tween(this.aliens).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        var tween = this.add.tween(this.aliens).to( { x: this.game.width - 580 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
         //  When the tween loops it calls descend
         tween.onLoop.add(this.descend, this);
