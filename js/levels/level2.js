@@ -153,6 +153,9 @@ BasicGame.Level2.prototype = {
             this.physics.arcade.overlap(this.bullets, this.aliens, this.collisionHandler, null, this);
             this.physics.arcade.overlap(enemyBullets, this.player, this.enemyHitsPlayer, null, this);
         }
+        if (this.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+            this.nextLevel();
+        }
     },
 
     collisionHandler: function (bullet, alien) {
@@ -274,5 +277,10 @@ BasicGame.Level2.prototype = {
         this.player.revive();
         //hides the text
         this.stateText.visible = false;
+    },
+    nextLevel: function (pointer) {
+        // And start the actual game
+        this.state.start('Level3');
+        //this.music.stop();
     }
 };

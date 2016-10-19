@@ -1,118 +1,131 @@
 BasicGame.Level3 = function (game) {
-    this.player;
-    this.platforms;
-    this.cursors;
-
-    this.stars;
-    this.score = 0;
-    this.scoreText;
-
-    this.bpmText;
-
-    this.collectStar = function (player, star) {
-
-        // Removes the star from the screen
-        star.kill();
-
-        //  Add and update the score
-        score += 10;
-        scoreText.text = 'Score: ' + score;
-    }
+    this.width = window.innerWidth;
+    this.height = window.innerHeight > 480 ? 480 : window.innerHeight;
+    this.gameScore = 0;
+    this.highScore = 0;
 };
 
 BasicGame.Level3.prototype = {
-    create: function () {
-        // Configurar Juego
-        this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        // Plataformas
-        platforms = this.add.group();
-        platforms.enableBody = true;
-        var ground = platforms.create(0, this.world.height - 64, 'ground');
-        ground.scale.setTo(2, 2);
-        ground.body.immovable = true;
-        var ledge = platforms.create(400, 400, 'ground');
-        ledge.body.immovable = true;
-        ledge = platforms.create(-150, 250, 'ground');
-        ledge.body.immovable = true;
+    create: function(){
+        this.highScore = this.gameScore > this.highScore ? Math.floor(this.gameScore) : this.highScore;
+        this.gameScore = 0;
+        this.currentFrame = 0;
+        this.particleInterval = 2 * 60;
+        this.gameSpeed = 580;
+        this.isGameOver = false;
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        // Jugador
-        player = this.add.sprite(32, this.world.height - 150, 'dude');
-        this.physics.arcade.enable(player);
-        this.camera.follow(player);
-        player.body.bounce.y = 0.2;
-        player.body.gravity.y = 300;
-        player.body.collideWorldBounds = true;
-        player.animations.add('left', [0, 1, 2, 3], 10, true);
-        player.animations.add('right', [5, 6, 7, 8], 10, true);
+        this.music = this.game.add.audio("drivin-home");
+        this.music.loop = true;
+        this.music.play();
 
-        // Estrellas
-        stars = this.add.group();
-        stars.enableBody = true;
-        for (var i = 0; i < 12; i++) {
-            var star = stars.create(i * 70, 0, 'star');
-            star.body.gravity.y = 300;
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        this.bg = this.game.add.tileSprite(0, 0, this.width, this.height, 'snow-bg');
+        this.bg.fixedToCamera = true;
+        this.bg.autoScroll(-this.gameSpeed / 6, 0);
+
+        this.emitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
+
+        this.platforms = this.game.add.group();
+        this.platforms.enableBody = true;
+        this.platforms.createMultiple(5, 'platform', 0, false);
+        this.platforms.setAll('anchor.x', 0.5);
+        this.platforms.setAll('anchor.y', 0.5);
+
+        var plat;
+
+        for(var i=0; i<5; i++){
+            plat = this.platforms.getFirstExists(false);
+            plat.reset(i * 192, this.game.world.height - 24);
+            plat.width = 192;
+            plat.height = 24;
+            this.game.physics.arcade.enable(plat);
+            plat.body.immovable = true;
+            plat.body.bounce.set(0);
         }
 
-        // Controles
-        cursors = this.input.keyboard.createCursorKeys();
+        this.lastPlatform = plat;
 
-        // Textos del juego
-        bmpText = this.add.bitmapText(10, 100, 'carrier_command', 'Level 3!', 34);
-        scoreText = this.add.bitmapText(16, 16, 'carrier_command', 'score: 0', 10);
+        this.santa = this.game.add.sprite(100, this.game.world.height - 200, 'santa-running');
+        this.santa.animations.add("run");
+        this.santa.animations.play('run', 20, true);
+
+        this.game.physics.arcade.enable(this.santa);
+
+        this.santa.body.gravity.y = 1500;
+        this.santa.body.collideWorldBounds = true;
+
+        this.emitter.makeParticles('snowflake');
+        this.emitter.maxParticleScale = .02;
+        this.emitter.minParticleScale = .001;
+        this.emitter.setYSpeed(100, 200);
+        this.emitter.gravity = 0;
+        this.emitter.width = this.game.world.width * 1.5;
+        this.emitter.minRotation = 0;
+        this.emitter.maxRotation = 40;
+
+        this.game.camera.follow(this.santa);
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+
+        this.spacebar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.emitter.start(false, 0, 0);
+        this.score = this.game.add.text(20, 20, '', { font: "24px Arial", fill: "white", fontWeight: "bold" });
+
+        if(this.highScore > 0){
+            this.highScore = this.game.add.text(20, 45, 'Best: ' + this.highScore, { font: "18px Arial", fill: "white" });
+        }
 
     },
 
-    update: function () {
+    update: function(){
+        var that = this;
+        if(!this.isGameOver){
+            this.gameScore += .5;
+            this.gameSpeed += .03;
+            this.score.text = 'Score: ' + Math.floor(this.gameScore);
 
-        if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+            this.currentFrame++;
+            var moveAmount = this.gameSpeed / 100;
+            this.game.physics.arcade.collide(this.santa, this.platforms);
+
+            if(this.santa.body.bottom >= this.game.world.bounds.bottom){
+                this.isGameOver = true;
+                //this.endGame();
+
+            }
+
+            if(this.cursors.up.isDown && this.santa.body.touching.down || this.spacebar.isDown && this.santa.body.touching.down || this.game.input.mousePointer.isDown && this.santa.body.touching.down || this.game.input.pointer1.isDown && this.santa.body.touching.down){
+                this.jumpSound = this.game.add.audio("hop");
+                this.jumpSound.play();
+                this.santa.body.velocity.y = -500;
+            }
+
+
+            if(this.particleInterval === this.currentFrame){
+                this.emitter.makeParticles('snowflake');
+                this.currentFrame = 0;
+            }
+
+            this.platforms.children.forEach(function(platform) {
+                platform.body.position.x -= moveAmount;
+                if(platform.body.right <= 0){
+                    platform.kill();
+                    var plat = that.platforms.getFirstExists(false);
+                    plat.reset(that.lastPlatform.body.right + 192, that.game.world.height - (Math.floor(Math.random() * 50)) - 24);
+                    plat.body.immovable = true;
+                    that.lastPlatform = plat;
+                }
+            });
+
+        }
+        if (this.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
             this.nextLevel();
         }
 
-        //  Collide the player and the stars with the platforms
-        this.physics.arcade.collide(player, platforms);
-        this.physics.arcade.collide(stars, platforms);
-
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-        //this.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-        //  Reset the players velocity (movement)
-        player.body.velocity.x = 0;
-
-        if (cursors.left.isDown) {
-            //  Move to the left
-            player.body.velocity.x = -150;
-
-            player.animations.play('left');
-        }
-        else if (cursors.right.isDown) {
-            //  Move to the right
-            player.body.velocity.x = 150;
-
-            player.animations.play('right');
-        }
-        else {
-            //  Stand still
-            player.animations.stop();
-
-            player.frame = 4;
-        }
-
-        //  Allow the player to jump if they are touching the ground.
-        if (cursors.up.isDown)// && player.body.touching.down)
-        {
-            player.body.velocity.y = -350;
-        }
-
-    },
-
-    render: function () {
-        //this.debug.inputInfo(32, 32);
     },
     nextLevel: function (pointer) {
         // And start the actual game
         this.state.start('MainMenu');
+        //this.music.stop();
     }
-}
-;
+};
