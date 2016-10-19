@@ -117,8 +117,9 @@ BasicGame.Level1.prototype = {
 
     heroCreate: function () {
         // basic hero setup
-        this.hero = this.game.add.sprite(this.world.centerX, this.world.height - 36, 'hero');
-        this.hero.anchor.set(0.5);
+        this.hero = this.game.add.sprite(this.world.centerX, this.world.height - 100, 'hero');
+        //this.hero.anchor.set(0.5);
+        this.hero.scale.set(2,2);
 
         // track where the hero started and how much the distance has changed from that point
         this.hero.yOrig = this.hero.y;
@@ -133,9 +134,9 @@ BasicGame.Level1.prototype = {
         this.hero.body.checkCollision.right = false;
 
         // Add animations
-        this.hero.animations.add('walk', [0, 1], 10, true);
-        this.hero.animations.add('jump', [2, 3], 10, true);
-        this.hero.animations.add('cry', [2, 3], 10, true);
+        this.hero.animations.add('walk', [0], 10, true);
+        this.hero.animations.add('jump', [0,1], 10, true);
+        this.hero.animations.play('walk');
     },
 
     heroMove: function () {
@@ -151,7 +152,10 @@ BasicGame.Level1.prototype = {
         // handle hero jumping
         //if (this.cursor.up.isDown && this.hero.body.touching.down) {
         if(this.hero.body.touching.down) {
-            this.hero.body.velocity.y = -350;
+            this.hero.body.velocity.y = -410;
+            this.hero.animations.play('walk');
+        }else{
+            this.hero.animations.play('jump');
         }
 
         // wrap world coordinated so that you can warp from left to right and right to left

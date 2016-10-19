@@ -39,7 +39,7 @@ BasicGame.Preloader.prototype = {
         this.load.spritesheet('dudeintro','assets/sprites/Intro/dudeintro.png',32,32);
 
 		// Nivel 1
-		this.load.image('hero', 'assets/sprites/level1/dude.png');
+		this.load.spritesheet('hero', 'assets/sprites/level1/mktgirl.png',18,23);
 		this.load.image('pixel', 'assets/sprites/level1/pixel_1.png');
 		this.load.image('buscador','assets/sprites/level1/buscador.png')
 
