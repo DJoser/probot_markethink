@@ -19,6 +19,7 @@ BasicGame.Level2 = function (game) {
 
 BasicGame.Level2.prototype = {
     create: function () {
+        this.stage.backgroundColor = "#99D9EA";
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
 
@@ -43,8 +44,11 @@ BasicGame.Level2.prototype = {
         enemyBullets.setAll('checkWorldBounds', true);
 
         //  The hero!
-        this.player = this.add.sprite(400, 500, 'ship');
-        this.player.anchor.setTo(0.5, 0.5);
+        this.player = this.add.sprite(this.world.centerX, this.world.height - 100, 'ship');
+        //this.player.anchor.setTo(0.5, 0.5);
+        this.player.animations.add('walk',[0,1],10,true);
+        this.player.animations.play('walk');
+        this.player.scale.set(3,4);
         this.physics.enable(this.player, Phaser.Physics.ARCADE);
 
         //  The baddies!
@@ -90,8 +94,9 @@ BasicGame.Level2.prototype = {
         {
             for (var x = 0; x < 10; x++)
             {
-                var alien = this.aliens.create(x * 48, y * 50, 'invader');
+                var alien = this.aliens.create(x * 57, y * 57, 'invader');
                 alien.anchor.setTo(0.5, 0.5);
+                alien.scale.set(3,3);
                 alien.animations.add('fly', [ 0, 1, 2, 3 ], 20, true);
                 alien.play('fly');
                 alien.body.moves = false;

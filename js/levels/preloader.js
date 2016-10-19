@@ -46,8 +46,8 @@ BasicGame.Preloader.prototype = {
 		// Nivel 2
 		this.load.image('bullet', 'assets/sprites/level2/bullet.png');
 		this.load.image('enemyBullet', 'assets/sprites/level2/enemy-bullet.png');
-		this.load.spritesheet('invader', 'assets/sprites/level2/invader32x32x4.png', 32, 32);
-		this.load.image('ship', 'assets/sprites/level2/player.png');
+		this.load.spritesheet('invader', 'assets/sprites/level2/fantasma amarillo.png', 19, 19);
+		this.load.spritesheet('ship', 'assets/sprites/level2/player.png',24,21);
 		this.load.spritesheet('kaboom', 'assets/sprites/level2/explode.png', 128, 128);
 		this.load.image('starfield', 'assets/sprites/level2/starfield.png');
 		this.load.image('background', 'assets/sprites/level2/background2.png');
