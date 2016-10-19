@@ -21,8 +21,6 @@ BasicGame.Level2.prototype = {
     create: function () {
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //  The scrolling starfield background
-        this.starfield = this.add.tileSprite(0, 0, 800, 600, 'starfield');
 
         //  Our bullet group
         this.bullets = this.add.group();
@@ -121,9 +119,6 @@ BasicGame.Level2.prototype = {
     },
 
     update: function () {
-        //  Scroll the background
-        this.starfield.tilePosition.y += 2;
-
         if (this.player.alive)
         {
             //  Reset the player, then check for movement keys
