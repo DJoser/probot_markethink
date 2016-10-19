@@ -2,6 +2,7 @@ BasicGame.Level1 = function () {
 };
 BasicGame.Level1.prototype = {
     create: function () {
+        this.stage.backgroundColor = "#FFFFFF";
         this.PLATFORM_SIZE = 500;
 
         // physics
@@ -16,6 +17,22 @@ BasicGame.Level1.prototype = {
 
         // create hero
         this.heroCreate();
+
+        // Dibujar el buscador
+        var graphics = this.game.add.graphics(0, 0);
+        graphics.beginFill(0xDDDDDD);
+        graphics.lineStyle(3, 0xAAAAAA, 1);
+        graphics.drawRect(0, 0, this.game.width, 100);
+        graphics.beginFill(0xFFFFFF);
+        graphics.lineStyle(1, 0xAAAAAA, 1);
+        graphics.drawRect(20, 20, this.game.width - 40, 60);
+        //window.graphics = graphics;
+        var buscador = this.game.add.sprite(0,0);
+        buscador.addChild(graphics);
+        buscador.fixedToCamera = true;
+        var icono = this.game.add.sprite(this.game.width - 80,20,'buscador');
+        icono.scale.setTo(6,6);
+        icono.fixedToCamera = true;
 
         // cursor controls
         this.cursor = this.input.keyboard.createCursorKeys();
