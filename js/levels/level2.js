@@ -86,7 +86,7 @@ BasicGame.Level2.prototype = {
 
         //  And some controls to play the game with
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
     },
 
     createAliens: function () {
@@ -139,7 +139,7 @@ BasicGame.Level2.prototype = {
             }
 
             //  Firing?
-            if (this.fireButton.isDown)
+            if (this.cursors.up.isDown)
             {
                 this.fireBullet();
             }
@@ -280,7 +280,7 @@ BasicGame.Level2.prototype = {
     },
     nextLevel: function (pointer) {
         // And start the actual game
-        this.state.start('Level3');
+        this.state.start('MainMenu');
         //this.music.stop();
     }
 };
