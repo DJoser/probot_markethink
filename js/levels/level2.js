@@ -14,7 +14,7 @@ BasicGame.Level2 = function (game) {
     this.enemyBullet;
     this.firingTimer = 0;
     this.stateText;
-    this.livingEnemies = [];
+    livingEnemies = [];
 };
 
 BasicGame.Level2.prototype = {
@@ -216,29 +216,27 @@ BasicGame.Level2.prototype = {
         //  Grab the first bullet we can from the pool
         this.enemyBullet = enemyBullets.getFirstExists(false);
 
-        this.livingEnemies.length=0;
+        livingEnemies.length=0;
 
-        this.aliens.forEachAlive.call(this.calback);
+        this.aliens.forEachAlive(function(alien){
 
-        /*
-        if (this.enemyBullet && this.livingEnemies.length > 0)
+            // put every living enemy in an array
+            livingEnemies.push(alien);
+        });
+
+        if (this.enemyBullet && livingEnemies.length > 0)
         {
 
-            var random=this.rnd.integerInRange(0,this.livingEnemies.length-1);
+            var random=this.rnd.integerInRange(0,livingEnemies.length-1);
 
             // randomly select one of them
-            var shooter=this.livingEnemies[random];
+            var shooter=livingEnemies[random];
             // And fire the bullet from this enemy
             this.enemyBullet.reset(shooter.body.x, shooter.body.y);
 
             this.physics.arcade.moveToObject(this.enemyBullet,this.player,120);
             this.firingTimer = this.time.now + 2000;
-        }*/
-    },
-    calback : function(alien){
-
-        // put every living enemy in an array
-        this.livingEnemies.push(alien);
+        }
     },
 
     fireBullet: function () {
